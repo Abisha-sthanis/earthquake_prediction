@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Earthquake Prediction System</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        input[type="text"], input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Welcome to Earthquake Prediction System</h1>
+        <form action="/input" method="POST">
+            <label for="name">Enter your name:</label><br>
+            <input type="text" name="name" id="name" required><br>
+            <input type="submit" value="Start Prediction">
+        </form>
+    </div>
+</body>
+</html>
