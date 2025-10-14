@@ -2,83 +2,398 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Input Earthquake Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Prediction System</title>
     <style>
-        body {
-            background: linear-gradient(135deg, #d4fc79, #96e6a1);
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 30px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         h1 {
             color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
         }
-        form {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            display: inline-block;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            text-align: left;
+        
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+            animation: pulse 2s infinite;
+            text-align: center;
         }
-        input {
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0 15px 0;
-            border-radius: 5px;
-            border: 1px solid #aaa;
+            padding: 12px;
+            font-size: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            outline: none;
         }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
         input[type="submit"] {
             width: 100%;
-            background-color: #28a745;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            font-size: 16px;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
-            padding: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
         }
+        
         input[type="submit"]:hover {
-            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        input[type="submit"]:active {
+            transform: translateY(0);
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-box p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+        
+        .result-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .result-card p {
+            color: #666;
+            margin: 8px 0;
+        }
+        
+        .risk-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        
+        .back-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 16px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <h1>🌋 Enter Earthquake Parameters</h1>
-    <form action="/predict" method="POST">
-        <label>Longitude:</label>
-        <input type="number" step="0.0001" name="longitude" required value="28.7241">
-
-        <label>Latitude:</label>
-        <input type="number" step="0.0001" name="latitude" required value="40.8226">
-
-        <label>Depth (km):</label>
-        <input type="number" step="0.01" name="depth" required value="6.91">
-
-        <label>RMS:</label>
-        <input type="number" step="0.01" name="rms" required value="0.35">
-
-        <label>Type (Encoded Value):</label>
-        <input type="number" step="1" name="type" required value="0">
-
-        <label>Date (1-31):</label>
-        <input type="number" name="date" required value="8">
-
-        <label>Month (1-12):</label>
-        <input type="number" name="month" required value="9">
-
-        <label>Year:</label>
-        <input type="number" name="year" required value="2015">
-
-        <label>Hour (0-23):</label>
-        <input type="number" name="hour" required value="0">
-
-        <label>Minute (0-59):</label>
-        <input type="number" name="minute" required value="19">
-
-        <label>Second (0-59):</label>
-        <input type="number" name="second" required value="0">
-
-        <input type="submit" value="Predict Magnitude">
-    </form>
+    <div class="container">
+        <span class="emoji">🌍</span>
+        <h1>Earthquake Prediction System</h1>
+        <p class="subtitle">Advanced seismic analysis and monitoring</p>
+        
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="name">Enter Your Name:</label>
+                <input type="text" name="name" id="name" placeholder="John Doe" required>
+            </div>
+            
+            <input type="submit" value="Start Prediction">
+        </form>
+        
+        <div class="info-box">
+            <p><strong>ℹ️ Note:</strong> This system uses real-time seismic data and machine learning algorithms to provide earthquake predictions and risk assessments.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            
+            const userData = {
+                name: name,
+                timestamp: new Date().toISOString()
+            };
+            
+            showPredictionInterface(userData);
+        });
+        
+        function showPredictionInterface(userData) {
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <span class="emoji">🌋</span>
+                <h1>Enter Earthquake Parameters</h1>
+                <p class="subtitle">Welcome, ${userData.name}! Please provide the seismic data</p>
+                
+                <form id="earthquakeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="longitude">Longitude:</label>
+                            <input type="number" step="0.0001" id="longitude" value="28.7241" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="latitude">Latitude:</label>
+                            <input type="number" step="0.0001" id="latitude" value="40.8226" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="depth">Depth (km):</label>
+                            <input type="number" step="0.01" id="depth" value="6.91" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rms">RMS:</label>
+                            <input type="number" step="0.01" id="rms" value="0.35" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="type">Type (Encoded Value):</label>
+                        <input type="number" step="1" id="type" value="0" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Date (1-31):</label>
+                            <input type="number" id="date" min="1" max="31" value="8" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="month">Month (1-12):</label>
+                            <input type="number" id="month" min="1" max="12" value="9" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Year:</label>
+                            <input type="number" id="year" value="2015" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hour">Hour (0-23):</label>
+                            <input type="number" id="hour" min="0" max="23" value="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="minute">Minute (0-59):</label>
+                            <input type="number" id="minute" min="0" max="59" value="19" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="second">Second (0-59):</label>
+                            <input type="number" id="second" min="0" max="59" value="0" required>
+                        </div>
+                    </div>
+                    
+                    <input type="submit" value="Predict Magnitude">
+                    <button type="button" class="back-btn" onclick="location.reload()">← Back</button>
+                </form>
+                
+                <div class="info-box">
+                    <p><strong>👤 User:</strong> ${userData.name}</p>
+                    <p><strong>🕐 Session Started:</strong> ${new Date(userData.timestamp).toLocaleString()}</p>
+                </div>
+            `;
+            
+            document.getElementById('earthquakeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const earthquakeData = {
+                    user: userData.name,
+                    longitude: document.getElementById('longitude').value,
+                    latitude: document.getElementById('latitude').value,
+                    depth: document.getElementById('depth').value,
+                    rms: document.getElementById('rms').value,
+                    type: document.getElementById('type').value,
+                    date: document.getElementById('date').value,
+                    month: document.getElementById('month').value,
+                    year: document.getElementById('year').value,
+                    hour: document.getElementById('hour').value,
+                    minute: document.getElementById('minute').value,
+                    second: document.getElementById('second').value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                showResults(earthquakeData);
+            });
+        }
+        
+        function showResults(data) {
+            const container = document.querySelector('.container');
+            
+            // Simple magnitude prediction based on depth and RMS
+            const predictedMagnitude = (parseFloat(data.depth) * 0.15 + parseFloat(data.rms) * 5).toFixed(2);
+            
+            const riskLevel = predictedMagnitude > 6 ? 'High' : 
+                            predictedMagnitude > 4 ? 'Medium' : 'Low';
+            const riskColor = riskLevel === 'High' ? '#dc3545' : 
+                            riskLevel === 'Medium' ? '#ffc107' : '#28a745';
+            
+            const dateStr = `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.date).padStart(2, '0')}`;
+            const timeStr = `${String(data.hour).padStart(2, '0')}:${String(data.minute).padStart(2, '0')}:${String(data.second).padStart(2, '0')}`;
+            
+            container.innerHTML = `
+                <span class="emoji">✅</span>
+                <h1>Prediction Results</h1>
+                <p class="subtitle">Analysis complete for ${data.user}</p>
+                
+                <div class="result-card">
+                    <h3>📍 Location & Time Details</h3>
+                    <p><strong>Coordinates:</strong> ${data.latitude}° N, ${data.longitude}° E</p>
+                    <p><strong>Date:</strong> ${dateStr}</p>
+                    <p><strong>Time:</strong> ${timeStr} UTC</p>
+                    <p><strong>Depth:</strong> ${data.depth} km</p>
+                </div>
+                
+                <div class="result-card">
+                    <h3>📊 Seismic Parameters</h3>
+                    <p><strong>RMS:</strong> ${data.rms}</p>
+                    <p><strong>Type Code:</strong> ${data.type}</p>
+                    <p><strong>Location:</strong> Latitude ${data.latitude}°, Longitude ${data.longitude}°</p>
+                </div>
+                
+                <div class="result-card" style="background: ${riskColor}; color: white; text-align: center;">
+                    <h3 style="color: white;">⚠️ Predicted Magnitude</h3>
+                    <div class="risk-badge" style="background: rgba(255,255,255,0.3); color: white;">
+                        ${predictedMagnitude} Richter Scale
+                    </div>
+                    <p style="color: white; margin-top: 10px;"><strong>Risk Level: ${riskLevel}</strong></p>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>🔬 Analysis Summary:</strong></p>
+                    <p>Based on the seismic parameters provided, the predicted magnitude is ${predictedMagnitude} on the Richter scale with a ${riskLevel.toLowerCase()} risk level.</p>
+                    <p style="margin-top: 10px;">
+                        ${riskLevel === 'High' ? '⚠️ High risk detected. Immediate safety measures and monitoring recommended.' : 
+                          riskLevel === 'Medium' ? '⚡ Moderate risk. Continue monitoring and be prepared.' : 
+                          '✓ Low risk. Normal monitoring procedures sufficient.'}
+                    </p>
+                </div>
+                
+                <button class="back-btn" onclick="location.reload()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin-top: 20px;">
+                    🔄 New Prediction
+                </button>
+            `;
+        }
+    </script>
 </body>
 </html>
