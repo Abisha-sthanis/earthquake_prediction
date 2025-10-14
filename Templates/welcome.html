@@ -145,7 +145,7 @@
         <h1>Earthquake Prediction System</h1>
         <p class="subtitle">Advanced seismic analysis and monitoring</p>
         
-        <form id="predictionForm">
+        <form action="/input" method="POST">
             <div class="form-group">
                 <label for="name">Enter Your Name:</label>
                 <input type="text" name="name" id="name" placeholder="John Doe" required>
@@ -158,24 +158,5 @@
             <p><strong>ℹ️ Note:</strong> This system uses real-time seismic data and machine learning algorithms to provide earthquake predictions and risk assessments.</p>
         </div>
     </div>
-    
-    <script>
-        document.getElementById('predictionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            
-            // Store the name for use in the prediction interface
-            const userData = {
-                name: name,
-                timestamp: new Date().toISOString()
-            };
-            
-            // In a real application, this would send data to your backend
-            alert(`Welcome, ${name}! The prediction system would now initialize.\n\nIn a full implementation, this would connect to your backend server at /input`);
-            
-            // Reset form
-            this.reset();
-        });
-    </script>
 </body>
 </html>
