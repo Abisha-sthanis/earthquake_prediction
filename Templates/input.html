@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Earthquake Data</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            text-align: left;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌋 Enter Earthquake Parameters</h1>
+    <form action="/predict" method="POST">
+        <label>Longitude:</label>
+        <input type="number" step="0.0001" name="longitude" required value="28.7241">
+
+        <label>Latitude:</label>
+        <input type="number" step="0.0001" name="latitude" required value="40.8226">
+
+        <label>Depth (km):</label>
+        <input type="number" step="0.01" name="depth" required value="6.91">
+
+        <label>RMS:</label>
+        <input type="number" step="0.01" name="rms" required value="0.35">
+
+        <label>Type (Encoded Value):</label>
+        <input type="number" step="1" name="type" required value="0">
+
+        <label>Date (1-31):</label>
+        <input type="number" name="date" required value="8">
+
+        <label>Month (1-12):</label>
+        <input type="number" name="month" required value="9">
+
+        <label>Year:</label>
+        <input type="number" name="year" required value="2015">
+
+        <label>Hour (0-23):</label>
+        <input type="number" name="hour" required value="0">
+
+        <label>Minute (0-59):</label>
+        <input type="number" name="minute" required value="19">
+
+        <label>Second (0-59):</label>
+        <input type="number" name="second" required value="0">
+
+        <input type="submit" value="Predict Magnitude">
+    </form>
+</body>
+</html>
