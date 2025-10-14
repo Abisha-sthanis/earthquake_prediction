@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Earthquake Prediction Result</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        .card {
+            background: white;
+            display: inline-block;
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #222;
+        }
+        .result {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .emoji {
+            font-size: 60px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔮 Predicted Earthquake Details</h1>
+        <div class="result">
+            <p><strong>⚠️ Predicted Magnitude:</strong> {{ magnitude }}</p>
+            <p class="emoji">{{ emoji }}</p>
+            <p><strong>Severity:</strong> {{ severity }}</p>
+        </div>
+        <a href="/input">🔁 Predict Another</a><br><br>
+        <a href="/">🏠 Back to Home</a>
+    </div>
+</body>
+</html>
