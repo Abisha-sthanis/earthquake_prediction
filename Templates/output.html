@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earthquake Prediction System</title>
+    <title>Earthquake Prediction Result</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f6d365, #fda085);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -20,443 +20,292 @@
             align-items: center;
             padding: 20px;
         }
-        
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
+
+        .card {
+            background: white;
+            padding: 50px 60px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
             max-width: 600px;
             width: 100%;
-            animation: fadeIn 0.6s ease-in;
+            animation: slideIn 0.6s ease-out;
         }
-        
-        @keyframes fadeIn {
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: scale(0.9) translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) translateY(0);
             }
         }
-        
+
         h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 15px;
+            color: #222;
+            font-size: 32px;
+            margin-bottom: 30px;
             font-weight: 600;
-            text-align: center;
         }
-        
+
+        .result {
+            margin: 30px 0;
+        }
+
+        .result p {
+            font-size: 22px;
+            color: #444;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .magnitude-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .magnitude-value {
+            font-size: 56px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
         .emoji {
             font-size: 80px;
-            margin: 20px 0;
             display: block;
+            margin: 25px 0;
             animation: bounce 2s infinite;
-            text-align: center;
         }
-        
+
         @keyframes bounce {
             0%, 100% {
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-15px);
             }
         }
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-        }
-        
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            color: #555;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        input[type="submit"],
-        .btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        input[type="submit"]:hover,
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-        
-        input[type="submit"]:active,
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .info-box {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
-            border-left: 4px solid #667eea;
-        }
-        
-        .info-box p {
-            color: #666;
-            font-size: 13px;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-        
-        .result-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        .result-card h3 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .result-card p {
-            color: #666;
-            margin: 10px 0;
-            font-size: 18px;
-        }
-        
-        .magnitude-display {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 30px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
+
         .severity-badge {
             display: inline-block;
-            padding: 15px 30px;
-            border-radius: 25px;
+            padding: 15px 35px;
+            border-radius: 30px;
             font-weight: bold;
             font-size: 20px;
-            margin: 15px 0;
+            margin: 20px 0;
             color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .back-btn {
-            width: 48%;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 14px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+
+        .severity-high {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        }
+
+        .severity-medium {
+            background: linear-gradient(135deg, #ffa500, #ff8c00);
+        }
+
+        .severity-low {
+            background: linear-gradient(135deg, #51cf66, #37b24d);
+        }
+
+        .button-group {
+            margin-top: 35px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        a {
             display: inline-block;
             text-decoration: none;
-            text-align: center;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
         }
-        
-        .back-btn:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
+
+        a:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
         }
-        
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+
+        a:active {
+            transform: translateY(-1px);
+        }
+
+        .home-btn {
+            background: linear-gradient(135deg, #28a745, #218838);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .home-btn:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            text-align: left;
+            border-left: 4px solid #007bff;
+        }
+
+        .info-section p {
+            font-size: 14px;
+            color: #666;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .magnitude-value {
+                font-size: 42px;
+            }
+
+            .emoji {
+                font-size: 60px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            a {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <span class="emoji" style="animation: pulse 2s infinite;">🌍</span>
-        <h1>Earthquake Prediction System</h1>
-        <p class="subtitle">Advanced seismic analysis and monitoring</p>
+    <div class="card">
+        <h1>🔮 Predicted Earthquake Details</h1>
         
-        <form id="predictionForm">
-            <div class="form-group">
-                <label for="name">Enter Your Name:</label>
-                <input type="text" name="name" id="name" placeholder="John Doe" required>
+        <div class="result">
+            <div class="magnitude-box">
+                <p style="margin: 0; font-size: 18px; opacity: 0.9;">⚠️ Predicted Magnitude</p>
+                <div class="magnitude-value" id="magnitudeValue">5.8</div>
+                <p style="margin: 0; font-size: 16px; opacity: 0.8;">Richter Scale</p>
             </div>
-            
-            <input type="submit" value="Start Prediction">
-        </form>
-        
-        <div class="info-box">
-            <p><strong>ℹ️ Note:</strong> This system uses real-time seismic data and machine learning algorithms to provide earthquake predictions and risk assessments.</p>
+
+            <span class="emoji" id="emojiDisplay">🟡</span>
+
+            <div>
+                <span class="severity-badge severity-medium" id="severityBadge">Moderate - Notable Shaking</span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <p><strong>📊 Risk Assessment:</strong></p>
+            <p id="riskDescription">This magnitude indicates moderate seismic activity. Notable shaking expected with potential for minor structural damage. Secure loose objects and stay alert.</p>
+        </div>
+
+        <div class="button-group">
+            <a href="/input" onclick="handlePredictAnother(event)">🔁 Predict Another</a>
+            <a href="/" class="home-btn" onclick="handleBackHome(event)">🏠 Back to Home</a>
         </div>
     </div>
-    
+
     <script>
-        document.getElementById('predictionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
+        // Sample data - In a real application, this would come from your backend
+        // You can replace these values with actual data from your Flask/Django backend
+        const earthquakeData = {
+            magnitude: 5.8,
+            emoji: '🟡',
+            severity: 'Moderate - Notable Shaking'
+        };
+
+        // Function to update the display with prediction results
+        function updateDisplay(data) {
+            const magnitudeValue = parseFloat(data.magnitude);
             
-            const userData = {
-                name: name,
-                timestamp: new Date().toISOString()
-            };
+            // Update magnitude
+            document.getElementById('magnitudeValue').textContent = magnitudeValue.toFixed(2);
             
-            showPredictionInterface(userData);
-        });
-        
-        function showPredictionInterface(userData) {
-            const container = document.querySelector('.container');
-            container.innerHTML = `
-                <span class="emoji" style="animation: pulse 2s infinite;">🌋</span>
-                <h1>Enter Earthquake Parameters</h1>
-                <p class="subtitle">Welcome, ${userData.name}! Please provide the seismic data</p>
-                
-                <form id="earthquakeForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="longitude">Longitude:</label>
-                            <input type="number" step="0.0001" id="longitude" value="28.7241" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="latitude">Latitude:</label>
-                            <input type="number" step="0.0001" id="latitude" value="40.8226" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="depth">Depth (km):</label>
-                            <input type="number" step="0.01" id="depth" value="6.91" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="rms">RMS:</label>
-                            <input type="number" step="0.01" id="rms" value="0.35" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="type">Type (Encoded Value):</label>
-                        <input type="number" step="1" id="type" value="0" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="date">Date (1-31):</label>
-                            <input type="number" id="date" min="1" max="31" value="8" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="month">Month (1-12):</label>
-                            <input type="number" id="month" min="1" max="12" value="9" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="year">Year:</label>
-                            <input type="number" id="year" value="2015" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="hour">Hour (0-23):</label>
-                            <input type="number" id="hour" min="0" max="23" value="0" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="minute">Minute (0-59):</label>
-                            <input type="number" id="minute" min="0" max="59" value="19" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="second">Second (0-59):</label>
-                            <input type="number" id="second" min="0" max="59" value="0" required>
-                        </div>
-                    </div>
-                    
-                    <input type="submit" value="Predict Magnitude">
-                    <button type="button" class="back-btn" style="width: 100%;" onclick="location.reload()">← Back to Home</button>
-                </form>
-                
-                <div class="info-box">
-                    <p><strong>👤 User:</strong> ${userData.name}</p>
-                    <p><strong>🕐 Session Started:</strong> ${new Date(userData.timestamp).toLocaleString()}</p>
-                </div>
-            `;
+            // Determine emoji and severity based on magnitude
+            let emoji, severity, severityClass, riskDescription;
             
-            document.getElementById('earthquakeForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const earthquakeData = {
-                    user: userData.name,
-                    longitude: document.getElementById('longitude').value,
-                    latitude: document.getElementById('latitude').value,
-                    depth: document.getElementById('depth').value,
-                    rms: document.getElementById('rms').value,
-                    type: document.getElementById('type').value,
-                    date: document.getElementById('date').value,
-                    month: document.getElementById('month').value,
-                    year: document.getElementById('year').value,
-                    hour: document.getElementById('hour').value,
-                    minute: document.getElementById('minute').value,
-                    second: document.getElementById('second').value,
-                    timestamp: new Date().toISOString()
-                };
-                
-                showResults(earthquakeData);
-            });
-        }
-        
-        function showResults(data) {
-            const container = document.querySelector('.container');
-            
-            // Calculate predicted magnitude based on depth and RMS
-            const predictedMagnitude = (parseFloat(data.depth) * 0.15 + parseFloat(data.rms) * 5 + Math.random() * 0.5).toFixed(2);
-            
-            // Determine severity and emoji
-            let severity, severityColor, emoji;
-            
-            if (predictedMagnitude >= 7) {
-                severity = "Major - Catastrophic Damage";
-                severityColor = "#dc3545";
-                emoji = "🔴";
-            } else if (predictedMagnitude >= 6) {
-                severity = "Strong - Significant Damage";
-                severityColor = "#fd7e14";
-                emoji = "🟠";
-            } else if (predictedMagnitude >= 5) {
-                severity = "Moderate - Notable Shaking";
-                severityColor = "#ffc107";
-                emoji = "🟡";
-            } else if (predictedMagnitude >= 4) {
-                severity = "Light - Minor Damage";
-                severityColor = "#20c997";
-                emoji = "🟢";
+            if (magnitudeValue >= 7.0) {
+                emoji = '🔴';
+                severity = 'Major - Catastrophic Damage';
+                severityClass = 'severity-high';
+                riskDescription = 'CRITICAL: Major earthquake predicted. Immediate evacuation and emergency protocols should be activated. Expect severe structural damage and potential casualties.';
+            } else if (magnitudeValue >= 6.0) {
+                emoji = '🟠';
+                severity = 'Strong - Significant Damage';
+                severityClass = 'severity-high';
+                riskDescription = 'WARNING: Strong earthquake predicted. Significant damage to buildings expected. Implement safety measures and prepare for aftershocks.';
+            } else if (magnitudeValue >= 5.0) {
+                emoji = '🟡';
+                severity = 'Moderate - Notable Shaking';
+                severityClass = 'severity-medium';
+                riskDescription = 'ALERT: Moderate earthquake predicted. Notable shaking expected with potential for minor structural damage. Secure loose objects and stay alert.';
+            } else if (magnitudeValue >= 4.0) {
+                emoji = '🟢';
+                severity = 'Light - Minor Damage';
+                severityClass = 'severity-low';
+                riskDescription = 'CAUTION: Light earthquake predicted. Minor damage possible. Most buildings will withstand the shaking. Monitor the situation.';
             } else {
-                severity = "Minor - Little to No Damage";
-                severityColor = "#28a745";
-                emoji = "🟢";
+                emoji = '🟢';
+                severity = 'Minor - Little to No Damage';
+                severityClass = 'severity-low';
+                riskDescription = 'NOTICE: Minor seismic activity predicted. Little to no damage expected. Normal monitoring procedures sufficient.';
             }
             
-            const dateStr = `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.date).padStart(2, '0')}`;
-            const timeStr = `${String(data.hour).padStart(2, '0')}:${String(data.minute).padStart(2, '0')}:${String(data.second).padStart(2, '0')}`;
+            // Update display elements
+            document.getElementById('emojiDisplay').textContent = emoji;
             
-            container.innerHTML = `
-                <span class="emoji" style="animation: bounce 2s infinite;">🔮</span>
-                <h1>Predicted Earthquake Details</h1>
-                <p class="subtitle">Analysis complete for ${data.user}</p>
-                
-                <div class="result-card">
-                    <h3>⚠️ Predicted Magnitude</h3>
-                    <div class="magnitude-display">
-                        ${predictedMagnitude}
-                    </div>
-                    <p style="font-size: 16px; color: #666;">Richter Scale</p>
-                </div>
-                
-                <div class="result-card">
-                    <div class="emoji" style="font-size: 100px; margin: 10px 0;">${emoji}</div>
-                    <div class="severity-badge" style="background: ${severityColor};">
-                        ${severity}
-                    </div>
-                </div>
-                
-                <div class="info-box">
-                    <p><strong>📍 Location:</strong> ${data.latitude}° N, ${data.longitude}° E</p>
-                    <p><strong>📅 Date & Time:</strong> ${dateStr} at ${timeStr} UTC</p>
-                    <p><strong>🌊 Depth:</strong> ${data.depth} km</p>
-                    <p><strong>📊 RMS Value:</strong> ${data.rms}</p>
-                    <p><strong>🔢 Type Code:</strong> ${data.type}</p>
-                </div>
-                
-                <div class="info-box" style="border-left-color: ${severityColor}; background: ${severityColor}15;">
-                    <p><strong>🔬 Analysis Summary:</strong></p>
-                    <p style="margin-top: 10px;">
-                        ${predictedMagnitude >= 7 ? 
-                            '⚠️ CRITICAL: Major earthquake predicted. Immediate evacuation and emergency protocols should be activated. Expect severe structural damage and potential casualties.' :
-                        predictedMagnitude >= 6 ? 
-                            '⚠️ WARNING: Strong earthquake predicted. Significant damage to buildings expected. Implement safety measures and prepare for aftershocks.' :
-                        predictedMagnitude >= 5 ? 
-                            '⚡ ALERT: Moderate earthquake predicted. Notable shaking expected. Secure loose objects and stay alert.' :
-                        predictedMagnitude >= 4 ? 
-                            '✓ CAUTION: Light earthquake predicted. Minor damage possible. Monitor the situation.' :
-                            '✓ NOTICE: Minor seismic activity predicted. Normal monitoring procedures sufficient.'}
-                    </p>
-                </div>
-                
-                <div class="btn-group">
-                    <a href="#" class="back-btn" onclick="showPredictionInterface({name: '${data.user}', timestamp: '${data.timestamp}'}); return false;">🔁 Predict Another</a>
-                    <a href="#" class="back-btn" onclick="location.reload(); return false;">🏠 Back to Home</a>
-                </div>
-            `;
+            const severityBadge = document.getElementById('severityBadge');
+            severityBadge.textContent = severity;
+            severityBadge.className = 'severity-badge ' + severityClass;
+            
+            document.getElementById('riskDescription').textContent = riskDescription;
         }
+
+        // Initialize display with sample data
+        updateDisplay(earthquakeData);
+
+        // Handle navigation (for demonstration - replace with actual navigation)
+        function handlePredictAnother(event) {
+            // In a real application, this would navigate to your input page
+            // event.preventDefault();
+            // alert('Navigating to prediction input page...');
+        }
+
+        function handleBackHome(event) {
+            // In a real application, this would navigate to your home page
+            // event.preventDefault();
+            // alert('Navigating to home page...');
+        }
+
+        // If you're using Flask/Django templates, you can pass data like this:
+        // const serverData = {
+        //     magnitude: {{ magnitude }},
+        //     emoji: "{{ emoji }}",
+        //     severity: "{{ severity }}"
+        // };
+        // updateDisplay(serverData);
     </script>
 </body>
 </html>
