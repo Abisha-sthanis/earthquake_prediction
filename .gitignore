@@ -2,13 +2,11 @@
 venv/
 __pycache__/
 
-# Ignore model and data files
-*.pkl
-*.keras
-*.h5
+# Ignore data files (CSV should be ignored)
 *.csv
 
 # Ignore system files
 .DS_Store
 Thumbs.db
-Istanbul Deprem.csv
+
+# Note: Model files (*.pkl, *.keras, *.h5) are now tracked for deployment
