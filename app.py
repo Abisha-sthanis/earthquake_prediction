@@ -2,8 +2,7 @@
 from flask import Flask, render_template, request
 import numpy as np
 import joblib
-from tensorflow.keras.models import load_model
-
+from keras.models import load_model
 app = Flask(__name__)
 
 # Load model and scalers
