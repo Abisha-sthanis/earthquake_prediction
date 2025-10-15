@@ -29,4 +29,4 @@ COPY . .
 EXPOSE 10000
 
 # Command to run the app with Gunicorn
-CMD gunicorn --bind 0.0.0.0:$PORT app:app --workers 1 --threads 2 --timeout 120 --log-level info
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-10000} app:app --workers 1 --threads 2 --timeout 300 --log-level debug"]
