@@ -1,9 +1,8 @@
-# app.py
 from flask import Flask, render_template, request
 import numpy as np
 import joblib
 from keras.models import load_model
-app = Flask(__name__)
+app = Flask(__name__, template_folder='Templates')  # CHANGED THIS LINE
 
 # Load model and scalers
 model = load_model('earthquake_lstm_model.keras')
@@ -62,6 +61,14 @@ def predict():
 
     except Exception as e:
         return f"Error: {str(e)}"
+
+# ADD THIS NEW ROUTE
+@app.route('/debug')
+def debug():
+    import os
+    template_path = os.path.join(app.root_path, 'Templates')
+    files = os.listdir(template_path) if os.path.exists(template_path) else []
+    return f"Templates found: {files}"
 
 if __name__ == '__main__':
     app.run(debug=True)
