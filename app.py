@@ -249,4 +249,5 @@ if __name__ == '__main__':
     print("🚀 Starting Flask development server...")
     print("📍 Access at: http://127.0.0.1:5000")
     print("="*60 + "\n")
-    app.run(debug=True)
+    app.run(debug=True)#   F o r c e   r e d e p l o y   -   t e m p l a t e s   f i x  
+ 
