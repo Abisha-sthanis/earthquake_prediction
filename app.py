@@ -3,7 +3,7 @@ import numpy as np
 import os
 import sys
 
-app = Flask(__name__, template_folder='Templates')
+app = Flask(__name__)
 
 # Initialize model, scaler as None
 model = None
