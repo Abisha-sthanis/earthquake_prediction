@@ -8,5 +8,6 @@ __pycache__/
 # Ignore system files
 .DS_Store
 Thumbs.db
+*.csv
 
 # Note: Model files (*.pkl, *.keras, *.h5) are now tracked for deployment
