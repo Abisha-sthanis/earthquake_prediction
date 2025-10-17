@@ -16,7 +16,7 @@ venv/
 .idea/
 
 # Documentation - ONLY ignore .md files, not other files
-*.md
+README.md
 
 # Environment variables
 .env
