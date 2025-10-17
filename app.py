@@ -7,6 +7,10 @@ app = Flask(__name__)
 
 print("=== DEBUG: Starting app ===")
 print(f"Current directory: {os.getcwd()}")
+print(f"Template folder: {app.template_folder}")
+print(f"Templates exist: {os.path.exists(app.template_folder)}")
+if os.path.exists(app.template_folder):
+    print(f"Files in templates: {os.listdir(app.template_folder)}")
 print(f"Model exists: {os.path.exists('earthquake_lstm_model.keras')}")
 print(f"Scaler exists: {os.path.exists('scaler.pkl')}")
 
@@ -127,10 +131,15 @@ def predict():
 
 
 if __name__ == '__main__':
+    # Get port from environment variable (for Render deployment)
+    port = int(os.environ.get('PORT', 5000))
+    
     print("\n" + "=" * 60)
     print("🌍 EARTHQUAKE PREDICTION SYSTEM")
     print("=" * 60)
     print("🚀 Starting Flask server...")
-    print("📍 Access at: http://127.0.0.1:5000")
+    print(f"📍 Port: {port}")
     print("=" * 60 + "\n")
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    
+    # For production (Render), don't use debug mode
+    app.run(debug=False, host="0.0.0.0", port=port)
