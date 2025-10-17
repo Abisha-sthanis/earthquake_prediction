@@ -13,14 +13,15 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libhdf5-dev \
     pkg-config \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 # Copy requirements file
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+# Install dependencies with increased timeout
+RUN pip install --no-cache-dir --upgrade pip --timeout 1000 \
+    && pip install --no-cache-dir -r requirements.txt --timeout 1000
 
 # Copy the rest of the app
 COPY . .
@@ -30,6 +31,3 @@ EXPOSE 10000
 
 # Command to run the app with Gunicorn
 CMD gunicorn --bind 0.0.0.0:$PORT app:app --workers 1 --threads 2 --timeout 120 --log-level info
-dockerfile# Increase pip timeout
-RUN pip install --no-cache-dir --upgrade pip --timeout 1000 \
-    && pip install --no-cache-dir -r requirements.txt --timeout 1000
