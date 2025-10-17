@@ -26,7 +26,7 @@
             padding: 50px 60px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             animation: slideIn 0.6s ease-out;
         }
@@ -42,22 +42,31 @@
             }
         }
 
+        .user-greeting {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .user-greeting h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
         h1 {
             color: #222;
             font-size: 32px;
             margin-bottom: 30px;
             font-weight: 600;
+            text-align: center;
         }
 
         .result {
             margin: 30px 0;
-        }
-
-        .result p {
-            font-size: 22px;
-            color: #444;
-            margin: 20px 0;
-            line-height: 1.6;
+            text-align: center;
         }
 
         .magnitude-box {
@@ -67,6 +76,7 @@
             border-radius: 15px;
             margin: 25px 0;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            text-align: center;
         }
 
         .magnitude-value {
@@ -115,6 +125,46 @@
             background: linear-gradient(135deg, #51cf66, #37b24d);
         }
 
+        .input-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .input-details h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+
         .button-group {
             margin-top: 35px;
             display: flex;
@@ -157,18 +207,19 @@
         }
 
         .info-section {
-            background: #f8f9fa;
+            background: #fff3cd;
             padding: 20px;
             border-radius: 12px;
             margin-top: 25px;
             text-align: left;
-            border-left: 4px solid #007bff;
+            border-left: 4px solid #ffc107;
         }
 
         .info-section p {
             font-size: 14px;
-            color: #666;
+            color: #856404;
             margin: 8px 0;
+            line-height: 1.6;
         }
 
         @media (max-width: 600px) {
@@ -188,6 +239,10 @@
                 font-size: 60px;
             }
 
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
             .button-group {
                 flex-direction: column;
             }
@@ -200,112 +255,71 @@
 </head>
 <body>
     <div class="card">
+        <!-- User greeting - Dynamic -->
+        <div class="user-greeting">
+            <h3>📊 Prediction Results for {{ name }}</h3>
+        </div>
+
         <h1>🔮 Predicted Earthquake Details</h1>
         
         <div class="result">
             <div class="magnitude-box">
                 <p style="margin: 0; font-size: 18px; opacity: 0.9;">⚠️ Predicted Magnitude</p>
-                <div class="magnitude-value" id="magnitudeValue">5.8</div>
+                <div class="magnitude-value">{{ magnitude }}</div>
                 <p style="margin: 0; font-size: 16px; opacity: 0.8;">Richter Scale</p>
             </div>
 
-            <span class="emoji" id="emojiDisplay">🟡</span>
+            <span class="emoji">{{ emoji }}</span>
 
             <div>
-                <span class="severity-badge severity-medium" id="severityBadge">Moderate - Notable Shaking</span>
+                <span class="severity-badge {{ severity_class }}">{{ severity }}</span>
+            </div>
+        </div>
+
+        <!-- Input Details Section - Dynamic -->
+        <div class="input-details">
+            <h3>📍 Input Seismic Data</h3>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Longitude</div>
+                    <div class="detail-value">{{ longitude }}°</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Latitude</div>
+                    <div class="detail-value">{{ latitude }}°</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Depth</div>
+                    <div class="detail-value">{{ depth }} km</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">RMS</div>
+                    <div class="detail-value">{{ rms }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Type</div>
+                    <div class="detail-value">{{ type }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">{{ date }}/{{ month }}/{{ year }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Time (UTC)</div>
+                    <div class="detail-value">{{ hour }}:{{ minute }}:{{ second }}</div>
+                </div>
             </div>
         </div>
 
         <div class="info-section">
-            <p><strong>📊 Risk Assessment:</strong></p>
-            <p id="riskDescription">This magnitude indicates moderate seismic activity. Notable shaking expected with potential for minor structural damage. Secure loose objects and stay alert.</p>
+            <p><strong>⚡ Risk Assessment:</strong></p>
+            <p>{{ risk_description }}</p>
         </div>
 
         <div class="button-group">
-            <a href="/input" onclick="handlePredictAnother(event)">🔁 Predict Another</a>
-            <a href="/" class="home-btn" onclick="handleBackHome(event)">🏠 Back to Home</a>
+            <a href="/">🔁 New Prediction</a>
+            <a href="/" class="home-btn">🏠 Back to Home</a>
         </div>
     </div>
-
-    <script>
-        // Sample data - In a real application, this would come from your backend
-        // You can replace these values with actual data from your Flask/Django backend
-        const earthquakeData = {
-            magnitude: 5.8,
-            emoji: '🟡',
-            severity: 'Moderate - Notable Shaking'
-        };
-
-        // Function to update the display with prediction results
-        function updateDisplay(data) {
-            const magnitudeValue = parseFloat(data.magnitude);
-            
-            // Update magnitude
-            document.getElementById('magnitudeValue').textContent = magnitudeValue.toFixed(2);
-            
-            // Determine emoji and severity based on magnitude
-            let emoji, severity, severityClass, riskDescription;
-            
-            if (magnitudeValue >= 7.0) {
-                emoji = '🔴';
-                severity = 'Major - Catastrophic Damage';
-                severityClass = 'severity-high';
-                riskDescription = 'CRITICAL: Major earthquake predicted. Immediate evacuation and emergency protocols should be activated. Expect severe structural damage and potential casualties.';
-            } else if (magnitudeValue >= 6.0) {
-                emoji = '🟠';
-                severity = 'Strong - Significant Damage';
-                severityClass = 'severity-high';
-                riskDescription = 'WARNING: Strong earthquake predicted. Significant damage to buildings expected. Implement safety measures and prepare for aftershocks.';
-            } else if (magnitudeValue >= 5.0) {
-                emoji = '🟡';
-                severity = 'Moderate - Notable Shaking';
-                severityClass = 'severity-medium';
-                riskDescription = 'ALERT: Moderate earthquake predicted. Notable shaking expected with potential for minor structural damage. Secure loose objects and stay alert.';
-            } else if (magnitudeValue >= 4.0) {
-                emoji = '🟢';
-                severity = 'Light - Minor Damage';
-                severityClass = 'severity-low';
-                riskDescription = 'CAUTION: Light earthquake predicted. Minor damage possible. Most buildings will withstand the shaking. Monitor the situation.';
-            } else {
-                emoji = '🟢';
-                severity = 'Minor - Little to No Damage';
-                severityClass = 'severity-low';
-                riskDescription = 'NOTICE: Minor seismic activity predicted. Little to no damage expected. Normal monitoring procedures sufficient.';
-            }
-            
-            // Update display elements
-            document.getElementById('emojiDisplay').textContent = emoji;
-            
-            const severityBadge = document.getElementById('severityBadge');
-            severityBadge.textContent = severity;
-            severityBadge.className = 'severity-badge ' + severityClass;
-            
-            document.getElementById('riskDescription').textContent = riskDescription;
-        }
-
-        // Initialize display with sample data
-        updateDisplay(earthquakeData);
-
-        // Handle navigation (for demonstration - replace with actual navigation)
-        function handlePredictAnother(event) {
-            // In a real application, this would navigate to your input page
-            // event.preventDefault();
-            // alert('Navigating to prediction input page...');
-        }
-
-        function handleBackHome(event) {
-            // In a real application, this would navigate to your home page
-            // event.preventDefault();
-            // alert('Navigating to home page...');
-        }
-
-        // If you're using Flask/Django templates, you can pass data like this:
-        // const serverData = {
-        //     magnitude: {{ magnitude }},
-        //     emoji: "{{ emoji }}",
-        //     severity: "{{ severity }}"
-        // };
-        // updateDisplay(serverData);
-    </script>
 </body>
 </html>
