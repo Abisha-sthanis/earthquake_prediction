@@ -1,14 +1,20 @@
 from flask import Flask, render_template, request
+import joblib
+from keras.models import load_model
 import numpy as np
-import os
-import sys
 
 app = Flask(__name__)
 
-# Initialize model, scaler as None
-model = None
-scaler = None
+# Load model and scaler (ensure these files exist inside /app)
+model = load_model('earthquake_lstm_model.keras')
+scaler = joblib.load('scaler.pkl')
 
+@app.route('/')
+def home():
+    return "Flask app running successfully inside Docker!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=10000)
 print("=" * 60)
 print("🌍 EARTHQUAKE PREDICTION SYSTEM - STARTING")
 print("=" * 60)
