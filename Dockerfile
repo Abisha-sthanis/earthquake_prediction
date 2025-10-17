@@ -25,8 +25,6 @@ RUN pip install --no-cache-dir --upgrade pip --timeout 1000 \
 # Copy the rest of the app
 COPY . .
 
-# ✅ ADD THIS LINE TO VERIFY TEMPLATES ARE COPIED
-RUN ls -la templates/ && echo "✅ Templates verified"
 
 # Expose port (Render uses PORT env variable)
 EXPOSE 10000

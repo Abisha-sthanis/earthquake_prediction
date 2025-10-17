@@ -15,8 +15,7 @@ venv/
 .vscode/
 .idea/
 
-# Documentation
-README.md
+# Documentation - ONLY ignore .md files, not other files
 *.md
 
 # Environment variables
@@ -25,3 +24,6 @@ README.md
 # Docker files
 Dockerfile
 docker-compose*.yml
+
+# Data files (optional - remove if you need these)
+*.csv
