@@ -1,13 +1,26 @@
 from flask import Flask, render_template, request
 import numpy as np
-from tensorflow.keras.models import load_model
-import joblib
+import os
 
 app = Flask(__name__)
 
-# Load your trained model and scaler
-model = load_model('earthquake_lstm_model.keras')
-scaler = joblib.load('scaler.pkl')
+# Initialize model and scaler as None
+model = None
+scaler = None
+
+# Try to load model files
+try:
+    from tensorflow.keras.models import load_model
+    import joblib
+    
+    if os.path.exists('earthquake_lstm_model.keras') and os.path.exists('scaler.pkl'):
+        model = load_model('earthquake_lstm_model.keras')
+        scaler = joblib.load('scaler.pkl')
+        print("✅ Model and scaler loaded successfully!")
+    else:
+        print("⚠️ Warning: Model files not found. Prediction will not work.")
+except Exception as e:
+    print(f"⚠️ Error loading model: {str(e)}")
 
 @app.route('/')
 def welcome():
@@ -24,6 +37,10 @@ def input_page():
 def predict():
     """Process prediction and show results"""
     try:
+        # Check if model is loaded
+        if model is None or scaler is None:
+            raise Exception("Model files not loaded. Please ensure earthquake_lstm_model.keras and scaler.pkl are in the deployment.")
+        
         # Get user name
         name = request.form.get('name', 'User')
         
