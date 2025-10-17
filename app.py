@@ -242,13 +242,7 @@ def predict():
 
 @app.route('/health')
 def health():
-    """Health check endpoint"""
-    status = {
-        'status': 'healthy',
-        'model_loaded': model is not None,
-        'scaler_loaded': scaler is not None
-    }
-    return status
+    return "OK", 200
 
 if __name__ == '__main__':
     print("\n" + "="*60)
