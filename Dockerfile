@@ -16,14 +16,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Copy requirements file
+# Copy requirements file FIRST (for better caching)
 COPY requirements.txt .
 
 # Install dependencies with increased timeout
 RUN pip install --no-cache-dir --upgrade pip --timeout 1000 \
     && pip install --no-cache-dir -r requirements.txt --timeout 1000
 
-# Copy the rest of the app
+# Copy ALL application files (including templates folder)
 COPY . .
 
 # Expose port (Render uses PORT env variable)
