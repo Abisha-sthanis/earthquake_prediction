@@ -3,10 +3,13 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, LSTM, Bidirectional, Input
-import joblib
 
+# ✅ UPDATED IMPORTS - Use keras directly, not tensorflow.keras
+import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, LSTM, Bidirectional, Input
+
+import joblib
 # ============================================
 # 1. LOAD DATA
 # ============================================
