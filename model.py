@@ -13,7 +13,7 @@ import joblib
 # ============================================
 # 1. LOAD DATA
 # ============================================
-earthquake = pd.read_csv('E:\earthquakeprediction\Istanbul Deprem.csv', encoding='ISO-8859-9', sep='\t')
+earthquake = pd.read_csv('E:/earthquakeprediction/Istanbul Deprem.csv', encoding='ISO-8859-9', sep='\t')
 
 earthquake['Date'] = pd.to_datetime(earthquake['Date'], format='%d-%m-%Y %H:%M', errors='coerce')
 earthquake['date'] = earthquake['Date'].dt.day
